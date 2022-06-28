@@ -1,3 +1,8 @@
 Rails.application.routes.draw do
-  resources :tasks
+  root 'tasks#index'
+  resources :tasks do
+    collection do
+      post :confirm
+    end
+  end
 end
