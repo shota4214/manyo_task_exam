@@ -7,7 +7,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         fill_in 'task[title]', with: 'test_title'
         fill_in 'task[content]', with: 'test_content'
         click_button 'Create Task'
-        expect(page).to have_content 'test_title'#, 'test_content'
+        expect(page).to have_content 'test_title'
         expect(page).to have_content 'test_content'
       end
     end
@@ -15,7 +15,7 @@ RSpec.describe 'タスク管理機能', type: :system do
   describe '一覧表示機能' do
     context '一覧画面に遷移した場合' do
       it '作成済みのタスク一覧が表示される' do
-        task = FactoryBot.create(:task, title: 'test_title')
+        task = FactoryBot.create(:task)
         visit tasks_path
         expect(page).to have_content 'test_title'
       end
@@ -24,12 +24,9 @@ RSpec.describe 'タスク管理機能', type: :system do
   describe '詳細表示機能' do
     context '任意のタスク詳細画面に遷移した場合' do
       it '該当タスクの内容が表示される' do
-        task = FactoryBot.create(:task, title: 'test_title')
+        task = FactoryBot.create(:task)
         visit tasks_path
-        click_link '詳細', href: task_path(task) #OKだが任意のとは違う
-        # title = title.find_by(name: '詳細')
-        # expect(page).to have_link '詳細', href: task_path(title)
-        # all('tbody tr')[0].click_link '詳細', href: task_path(task)
+        click_link '詳細', href: task_path(task)
         expect(page).to have_content 'test_title'
       end
     end
