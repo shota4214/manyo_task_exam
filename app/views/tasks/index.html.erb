@@ -8,13 +8,15 @@
   </tr>
 
 <% @tasks.each do |task| %>
-  <tr>
-    <td><%= task.title %></td>
-    <td><%= task.content %></td>
-    <td><%= link_to "詳細", task %><td>
-    <td><%= link_to "編集", edit_task_path(task) %></td>
-    <td><%= link_to "削除", task, method: :delete, data: { confirm:"本当に削除しても良いですか？" } %></td>
-  </tr>
+  <div class="task-preview">
+    <tr>
+      <td><div class="task-title"><%= task.title %></div></td>
+      <td><div class="task-content"><%= task.content %></div></td>
+      <td><div class="task-show"><%= link_to "詳細", task %></div><td>
+      <td><div class="task-edit"><%= link_to "編集", edit_task_path(task) %></div></td>
+      <td><div class="task-delete"><%= link_to "削除", task, method: :delete, data: { confirm:"本当に削除しても良いですか？" } %></div></td>
+    </tr>
+  </div>
 <% end %>
 </table>
 <%= link_to 'タスク作成', new_task_path %>
