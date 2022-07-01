@@ -11,9 +11,11 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit new_task_path
         fill_in 'task[title]', with: 'test_title'
         fill_in 'task[content]', with: 'test_content'
+        fill_in 'task[deadline]', with: '002022-07-01'
         click_button '登録する'
         expect(page).to have_content 'test_title'
         expect(page).to have_content 'test_content'
+        expect(page).to have_content '2022-07-01'
       end
     end
   end
@@ -28,7 +30,9 @@ RSpec.describe 'タスク管理機能', type: :system do
       it '新しいタスクが一番上に表示される' do
         visit tasks_path
         all('.task-show').first.click_link('詳細')
-        expect(page).to have_content 'test_title3'
+        expect(page).to have_content 'test_title'
+        expect(page).to have_content 'test_content'
+        expect(page).to have_content '2022-07-01'
       end
     end
   end
@@ -39,6 +43,18 @@ RSpec.describe 'タスク管理機能', type: :system do
         click_link '詳細', href: task_path(task)
         expect(page).to have_content 'test_title'
         expect(page).to have_content 'test_content'
+      end
+    end
+  end
+  describe '終了期限ソート機能' do
+    context '終了期限ソートボタンを押すと' do
+      it '終了期限の降順に一覧表示される' do
+        visit tasks_path
+        click_link('終了期限')
+        all('.task-show').first.click_link('詳細')
+        expect(page).to have_content 'test_title3'
+        expect(page).to have_content 'test_content3'
+        expect(page).to have_content '2022-07-03'
       end
     end
   end

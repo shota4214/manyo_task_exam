@@ -3,9 +3,9 @@
 
 <table>
   <tr>
-    <th><%= sort_order "title", "タイトル" %></th>
-    <th><%= sort_order "content", "内容" %></th>
-    <th><%= sort_order "deadline", "終了期限" %></th>
+    <th><div class="title"><%= sort_order "title", "タイトル" %></div></th>
+    <th><div class="content"><%= sort_order "content", "内容" %></div></th>
+    <th><div class="deadline"><%= sort_order "deadline", "終了期限" %></div></th>
   </tr>
 
 <% @tasks.each do |task| %>
