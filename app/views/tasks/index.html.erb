@@ -17,6 +17,7 @@
     <th><div class="content"><%= sort_order "content", "内容" %></div></th>
     <th><div class="deadline"><%= sort_order "deadline", "終了期限" %></div></th>
     <th><div class="status"><%= sort_order "status", "状態" %></div></th>
+    <th><div class="priority"><%= sort_order "priority", "優先度" %></div></th>
   </tr>
 
 <% @tasks.each do |task| %>
@@ -25,7 +26,8 @@
       <td><div class="task-title"><%= task.title %></div></td>
       <td><div class="task-content"><%= task.content %></div></td>
       <td><div class="task-deadline"><%= task.deadline %></div></td>
-      <td><div class="task-status"><%= task.status %></div></td>
+      <td><div class="task-status"><%= task.status_i18n %></div></td>
+      <td><div class="task-priority"><%= task.priority_i18n %></div></td>
       <td><div class="task-show"><%= link_to "詳細", task %></div><td>
       <td><div class="task-edit"><%= link_to "編集", edit_task_path(task) %></div></td>
       <td><div class="task-delete"><%= link_to "削除", task, method: :delete, data: { confirm:"本当に削除しても良いですか？" } %></div></td>
