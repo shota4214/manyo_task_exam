@@ -1,11 +1,22 @@
 <h1>タスク一覧</h1>
 <p><%= notice %></p>
 
+  <div class="search-form">
+    <%= form_with(scope: :search, url: tasks_path, local: true, method: :get) do |f| %>
+      <%= f.label :タイトル検索 %>
+      <%= f.text_field :title %>
+      <%= f.label :状態検索 %>
+      <%= f.select :status, [["未選択",""],["未着手", 0],["着手中", 1],["完了", 2]]%>
+      <%= f.submit "検索" %>
+    <% end %>
+  </div>
+
 <table>
   <tr>
     <th><div class="title"><%= sort_order "title", "タイトル" %></div></th>
     <th><div class="content"><%= sort_order "content", "内容" %></div></th>
     <th><div class="deadline"><%= sort_order "deadline", "終了期限" %></div></th>
+    <th><div class="status"><%= sort_order "status", "状態" %></div></th>
   </tr>
 
 <% @tasks.each do |task| %>
@@ -14,6 +25,7 @@
       <td><div class="task-title"><%= task.title %></div></td>
       <td><div class="task-content"><%= task.content %></div></td>
       <td><div class="task-deadline"><%= task.deadline %></div></td>
+      <td><div class="task-status"><%= task.status %></div></td>
       <td><div class="task-show"><%= link_to "詳細", task %></div><td>
       <td><div class="task-edit"><%= link_to "編集", edit_task_path(task) %></div></td>
       <td><div class="task-delete"><%= link_to "削除", task, method: :delete, data: { confirm:"本当に削除しても良いですか？" } %></div></td>
