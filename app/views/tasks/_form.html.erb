@@ -20,6 +20,18 @@
     <%= form.label :内容 %>
     <%= form.text_field :content %>
   </div>
+  <div class="task_deadline">
+    <%= form.label :終了期限 %>
+    <%= form.date_field :deadline %>
+  </div>
+    <div class="task_status">
+    <%= form.label :状態 %>
+    <%= form.select :status, [["未着手", "waiting"],["着手中", "doing"],["完了", "done"]], include_blank: "選択してください" %>
+  </div>
+  <div class="task_status">
+    <%= form.label :優先度 %>
+    <%= form.select :priority, [["低", "low"],["中", "medium"],["高", "high"]], include_blank: "選択" %>
+  </div>
   <%= form.submit %>
 <% end %>
 <%= link_to "一覧へ戻る", tasks_path %>
