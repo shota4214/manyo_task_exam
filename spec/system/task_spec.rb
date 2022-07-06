@@ -90,4 +90,14 @@ RSpec.describe 'タスク管理機能', type: :system do
       end
     end
   end
+  describe '優先度ソート機能' do
+    context '優先度ボタンを押すと' do
+      it '優先度の高い順に表示される' do
+        visit tasks_path
+        click_link('優先度')
+        all('.task-show').first.click_link('詳細')
+        expect(page).to have_content '高'
+      end
+    end
+  end
 end
