@@ -4,12 +4,14 @@ class TasksController < ApplicationController
   def index
     @tasks = Task.all.order("#{sort_column} #{sort_direction}")
     if params[:search].present?
-      if params[:search][:title].present? && params[:search][:status].present?
-        @tasks = Task.where("title LIKE ? AND status::text LIKE ?", "%#{params[:search][:title]}%", "%#{params[:search][:status]}%")
-      elsif params[:search][:title].present?
-        @tasks = Task.where("title LIKE ?", "%#{params[:search][:title]}%")
-      elsif params[:search][:status].present?
-        @tasks = Task.where(status: params[:search][:status])
+      title = params[:search][:title]
+      status = params[:search][:status]
+      if title.present? && status.present?
+        @tasks = Task.sort_title(title).sort_status(status)
+      elsif title.present?
+        @tasks = Task.sort_title(title)
+      elsif status.present?
+        @tasks = Task.sort_status(status)
       end
     end
   end

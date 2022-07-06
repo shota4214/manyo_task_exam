@@ -12,10 +12,14 @@ RSpec.describe 'タスク管理機能', type: :system do
         fill_in 'task[title]', with: 'test_title'
         fill_in 'task[content]', with: 'test_content'
         fill_in 'task[deadline]', with: '002022-07-01'
+        select '未着手', from: "task_status"
+        select '低', from: "task_priority"
         click_button '登録する'
         expect(page).to have_content 'test_title'
         expect(page).to have_content 'test_content'
         expect(page).to have_content '2022-07-01'
+        expect(page).to have_content '未着手'
+        expect(page).to have_content '低'
       end
     end
   end
@@ -55,6 +59,34 @@ RSpec.describe 'タスク管理機能', type: :system do
         expect(page).to have_content 'test_title3'
         expect(page).to have_content 'test_content3'
         expect(page).to have_content '2022-07-03'
+      end
+    end
+  end
+  describe 'タスク検索機能' do
+    context 'タイトル検索に入力して検索ボタンを押すと' do
+      it '検索文字が含まれたタイトルが一覧表示される' do
+        visit tasks_path
+        fill_in 'search[title]', with: 'test_title'
+        click_button '検索'
+        expect(page).to have_content 'test_title'
+      end
+    end
+    context '状態検索で選択して検索ボタンを押すと' do
+      it '一致した状態のみが一覧表示される' do
+        visit tasks_path
+        select '未着手', from: 'search_status'
+        click_button '検索'
+        expect(page).to have_content '未着手'
+      end
+    end
+    context 'タイトル検索と状態検索を入力して検索ボタンを押すと' do
+      it 'タイトルと状態に一致したタスクが一覧表示される' do
+        visit tasks_path
+        fill_in 'search[title]', with: 'test_title'
+        select '未着手', from: 'search_status'
+        click_button '検索'
+        expect(page).to have_content 'test_title'
+        expect(page).to have_content '未着手'
       end
     end
   end
