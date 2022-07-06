@@ -6,5 +6,6 @@ class Task < ApplicationRecord
 
   scope :sort_title, -> (title) { where("title LIKE ?", "%#{title}%") }
   scope :sort_status, -> (status) { where(status: status) }
+  paginates_per 10
 
 end

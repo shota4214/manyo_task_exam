@@ -2,16 +2,16 @@ class TasksController < ApplicationController
   helper_method :sort_column, :sort_direction
 
   def index
-    @tasks = Task.all.order("#{sort_column} #{sort_direction}")
+    @tasks = Task.all.order("#{sort_column} #{sort_direction}").page params[:page]
     if params[:search].present?
       title = params[:search][:title]
       status = params[:search][:status]
       if title.present? && status.present?
-        @tasks = Task.sort_title(title).sort_status(status)
+        @tasks = Task.sort_title(title).sort_status(status).page params[:page]
       elsif title.present?
-        @tasks = Task.sort_title(title)
+        @tasks = Task.sort_title(title).page params[:page]
       elsif status.present?
-        @tasks = Task.sort_status(status)
+        @tasks = Task.sort_status(status).page params[:page]
       end
     end
   end
