@@ -13,23 +13,23 @@
 
 <%= form_with(model: @task, local: true, url: choose_new_or_edit ) do |form| %>
   <div class="task_title">
-    <%= form.label :題名 %>
+    <%= form.label :title %>
     <%= form.text_field :title %>
   </div>
   <div class="task_content">
-    <%= form.label :内容 %>
+    <%= form.label :content %>
     <%= form.text_field :content %>
   </div>
   <div class="task_deadline">
-    <%= form.label :終了期限 %>
+    <%= form.label :deadline %>
     <%= form.date_field :deadline %>
   </div>
     <div class="task_status">
-    <%= form.label :状態 %>
+    <%= form.label :status %>
     <%= form.select :status, [["未着手", "waiting"],["着手中", "doing"],["完了", "done"]], include_blank: "選択してください" %>
   </div>
   <div class="task_status">
-    <%= form.label :優先度 %>
+    <%= form.label :priority %>
     <%= form.select :priority, [["低", "low"],["中", "medium"],["高", "high"]], include_blank: "選択" %>
   </div>
   <%= form.submit %>
