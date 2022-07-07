@@ -12,16 +12,16 @@
 <% end %>
 
 <%= form_with(model: @user, local: true) do |f| %>  
-  <%= f.label :名前 %>
+  <%= f.label :name %>
   <%= f.text_field :name %>
 
-  <%= f.label :メールアドレス %>
+  <%= f.label :email %>
   <%= f.email_field :email %>
 
-  <%= f.label :パスワード %>
+  <%= f.label :password %>
   <%= f.password_field :password %>
 
-  <%= f.label :パスワード再入力 %>
+  <%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation %>
 
   <%= f.submit "ユーザー登録" %>
