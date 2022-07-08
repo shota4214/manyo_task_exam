@@ -22,7 +22,7 @@
             <table class="table text-white mb-0">
               <thead>
                 <tr>
-                  <th scope="col"><div class="title">USER</div></th>
+                  <th scope="col"><div class="user"><%= sort_order "user", "ユーザー" %></div></th>
                   <th scope="col"><div class="title"><%= sort_order "title", "タイトル" %></div></th>
                   <th scope="col"><div class="content"><%= sort_order "content", "内容" %></div></th>
                   <th scope="col"><div class="deadline"><%= sort_order "deadline", "終了期限" %></div></th>
@@ -34,7 +34,7 @@
               <% @tasks.each do |task| %>
                 <div class="task-preview">
                   <tr class="fw-normal">
-                    <td><div class="task-title">USER</div></td>
+                    <td class="align-middle"><span><div class="task-user"><%= task.user.name %></span></div></td>
                     <td class="align-middle"><span><div class="task-title"><%= task.title %></span></div></td>
                     <td class="align-middle"><span><div class="task-content"><%= task.content %></span></div></td>
                     <td class="align-middle"><span><div class="task-deadline"><%= task.deadline %></span></div></td>
