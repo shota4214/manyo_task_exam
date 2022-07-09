@@ -18,6 +18,9 @@
                   <%= f.submit "検索" %>
                 <% end %>
               </div>
+              <div class="new-user-sign-up">
+                <%= link_to "新規ユーザー登録", new_admin_user_path %>
+              </div>
 
             <table class="table text-white mb-0">
               <thead>
@@ -26,7 +29,7 @@
                   <th scope="col"><div class="user_name"><%= sort_order "name", "名前" %></div></th>
                   <th scope="col"><div class="email"><%= sort_order "email", "メールアドレス" %></div></th>
                   <th scope="col"><div class="created_at"><%= sort_order "created_at", "登録日" %></div></th>
-                  <th scope="col"><div class="update_at"><%= sort_order "updated_at", "更新日" %></div></th>
+                  <th scope="col"><div class="tasks-count"><%= sort_order "tasks_count", "タスク数" %></div></th>
                   <th scope="col"><div class="admin"><%= sort_order "admin", "管理者" %></div></th>
                 </tr>
               </thead>
@@ -38,7 +41,7 @@
                     <td class="align-middle"><span><div class="user_name"><%= user.name %></span></div></td>
                     <td class="align-middle"><span><div class="user_email"><%= user.email %></span></div></td>
                     <td class="align-middle"><span><div class="user_created_at"><%= user.created_at.strftime('%Y/%m/%d') %></span></div></td>
-                    <td class="align-middle"><span><div class="user_updated_te"><%= user.updated_at.strftime('%Y/%m/%d') %></span></div></td>
+                    <td class="align-middle"><span><div class="user_updated_te"><%= user.tasks.count %></span></div></td>
                     <td class="align-middle"><h6 class="mb-0"><span class="badge bg-danger"><div class="user_admin"><%= user.admin %></span></h6></div></td>
                     <td class="align-middle"><span><div class="task-show"><%= link_to "詳細", admin_user_path(user) %></span></div><td>
                     <td class="align-middle"><span><div class="task-edit"><%= link_to "編集", edit_admin_user_path(user) %></span></div></td>

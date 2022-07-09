@@ -23,6 +23,20 @@ class UsersController < ApplicationController
     redirect_to tasks_path unless current_user.id == @user.id
   end
 
+  def edit
+    @user = User.find(params[:id])
+    redirect_to tasks_path unless current_user.id == @user.id
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to user_path, notice: "ユーザー情報を変更しました"
+    else
+      render :edit
+    end
+  end
+
   private
 
   def user_params

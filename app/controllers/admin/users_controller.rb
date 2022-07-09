@@ -2,6 +2,10 @@ class Admin::UsersController < ApplicationController
   before_action :non_admin
   helper_method :sort_column, :sort_direction
   
+  def new
+    @user = User.new
+  end
+
   def index
     @users = User.all.order("#{sort_column} #{sort_direction}")
     @users = @users.page params[:page]
@@ -9,6 +13,7 @@ class Admin::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @tasks = Task.user_tasks(current_user.id).order("created_at: DESC").page params[:page]
   end
 
   def edit
@@ -24,14 +29,20 @@ class Admin::UsersController < ApplicationController
     end
   end
 
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    redirect_to admin_users_path, notice: "ユーザーを削除しました"
+  end
+
   private
 
   def non_admin
-    redirect_to new_session_path unless current_user.admin?
+    redirect_to tasks_path, notice: "管理者以外はアクセスできません" unless current_user.admin?
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :admin)
+    params.require(:user).permit(:name, :email, :admin, :password, :password_confirmation)
   end
 
   def sort_direction
