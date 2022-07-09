@@ -2,8 +2,7 @@ class TasksController < ApplicationController
   helper_method :sort_column, :sort_direction
 
   def index
-    user_id = current_user.id
-    @tasks = Task.user_tasks(user_id).order("#{sort_column} #{sort_direction}").page params[:page]
+    @tasks = Task.user_tasks(current_user.id).order("#{sort_column} #{sort_direction}").page params[:page]
     if params[:search].present?
       title = params[:search][:title]
       status = params[:search][:status]

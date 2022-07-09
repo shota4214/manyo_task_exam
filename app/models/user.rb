@@ -6,4 +6,5 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, length: { minimum: 6 }
   has_many :tasks
+  paginates_per 10
 end
