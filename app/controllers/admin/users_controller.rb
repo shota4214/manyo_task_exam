@@ -13,7 +13,8 @@ class Admin::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @tasks = Task.user_tasks(current_user.id).order("created_at: DESC").page params[:page]
+    @tasks = @user.tasks.all.page params[:page]
+    # @user = @user.order(created_at: "DESC").page params[:page]
   end
 
   def edit
@@ -31,8 +32,11 @@ class Admin::UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
-    redirect_to admin_users_path, notice: "ユーザーを削除しました"
+    if @user.destroy
+      redirect_to admin_users_path, notice: "ユーザーを削除しました"
+    else
+      redirect_to admin_users_path, notice: "#{@user.errors[:base]}"
+    end
   end
 
   private
