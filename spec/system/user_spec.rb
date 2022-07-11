@@ -100,7 +100,7 @@ RSpec.describe 'ユーザー管理機能', type: :system do
         fill_in 'user[password]', with: '12345678'
         fill_in 'user[password_confirmation]', with: '12345678'
         click_on 'ユーザー登録'
-        expect(page).to have_content 'add-userのページ'
+        expect(page).to have_content 'ユーザー登録しました'
       end
     end
     context 'ログインユーザーが管理者だった場合' do
