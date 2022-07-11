@@ -10,9 +10,9 @@ class User < ApplicationRecord
   paginates_per 10
 
   private
-  
+
   def not_destroy_last_admin
-    if User.where(admin: 'true').count == 1
+    if User.where(admin: 'true').count == 1 && self.admin?
       errors.add :base, '管理者は必ず１名必要です'
       throw :abort
     end
