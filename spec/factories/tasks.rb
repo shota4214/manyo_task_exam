@@ -5,6 +5,7 @@ FactoryBot.define do
     deadline { '002022-07-01' }
     status { 'waiting' }
     priority { 'low' }
+    association :user
   end
   factory :second_task, class: Task do
     title { 'test_title2' }
@@ -12,6 +13,7 @@ FactoryBot.define do
     deadline { '002022-07-02' }
     status { 'doing' }
     priority { 'medium' }
+    association :user
   end
   factory :third_task, class: Task do
     title { 'test_title3' }
@@ -19,5 +21,6 @@ FactoryBot.define do
     deadline { '002022-07-03' }
     status { 'done' }
     priority { 'high' }
+    association :user
   end
 end

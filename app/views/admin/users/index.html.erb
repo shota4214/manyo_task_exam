@@ -1,0 +1,60 @@
+<section class="vh-100 gradient-custom-2">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-12 col-xl-10">
+        <div class="card mask-custom">
+          <div class="card-body p-4 text-white">
+            <div class="text-center pt-3 pb-2">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-todo-list/check1.webp"
+                alt="Check" width="60">
+              <h2 class="my-4">管理者用ユーザー管理画面</h2>
+            </div>
+            <p><%= notice %></p>
+            
+              <div class="search-form">
+                <%= form_with(scope: :search, url: admin_users_path, local: true, method: :get) do |f| %>
+                  <%= f.label :ユーザー名検索 %>
+                  <%= f.text_field :name %>
+                  <%= f.submit "検索" %>
+                <% end %>
+              </div>
+              <div class="new-user-sign-up">
+                <%= link_to "新規ユーザー登録", new_admin_user_path %>
+              </div>
+
+            <table class="table text-white mb-0">
+              <thead>
+                <tr>
+                  <th scope="col"><div class="user_id"><%= sort_order "id", "ID" %></div></th>
+                  <th scope="col"><div class="user_name"><%= sort_order "name", "名前" %></div></th>
+                  <th scope="col"><div class="email"><%= sort_order "email", "メールアドレス" %></div></th>
+                  <th scope="col"><div class="created_at"><%= sort_order "created_at", "登録日" %></div></th>
+                  <th scope="col"><div class="tasks-count"><%= sort_order "tasks_count", "タスク数" %></div></th>
+                  <th scope="col"><div class="admin"><%= sort_order "admin", "管理者" %></div></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @users.each do |user| %>
+                <div class="task-preview">
+                  <tr class="fw-normal">
+                    <td class="align-middle"><span><div class="user_id"><%= user.id %></span></div></td>
+                    <td class="align-middle"><span><div class="user_name"><%= user.name %></span></div></td>
+                    <td class="align-middle"><span><div class="user_email"><%= user.email %></span></div></td>
+                    <td class="align-middle"><span><div class="user_created_at"><%= user.created_at.strftime('%Y/%m/%d') %></span></div></td>
+                    <td class="align-middle"><span><div class="user_updated_te"><%= user.tasks.count %></span></div></td>
+                    <td class="align-middle"><h6 class="mb-0"><span class="badge bg-danger"><div class="user_admin"><%= user.admin %></span></h6></div></td>
+                    <td class="align-middle"><span><div class="task-show"><%= link_to "詳細", admin_user_path(user) %></span></div><td>
+                    <td class="align-middle"><span><div class="task-edit"><%= link_to "編集", edit_admin_user_path(user) %></span></div></td>
+                    <td class="align-middle"><span><div class="task-delete"><%= link_to "削除", admin_user_path(user), method: :delete, data: { confirm:"本当に削除しても良いですか？" } %></span></div></td>
+                  </tr>
+                </div>
+              <% end %>
+              <%= paginate @users %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

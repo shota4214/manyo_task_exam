@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Task, type: :model do
   describe 'タスクモデル機能', type: :model do
     describe 'バリデーションのテスト' do
+      let!(:user) { FactoryBot.create(:user) }
       context 'タスクのタイトルが空の場合' do
         it 'バリデーションにひっかる' do
           task = Task.new(title: '', content: '失敗をテスト')
@@ -17,15 +18,16 @@ RSpec.describe Task, type: :model do
       end
       context 'タスクのタイトルと詳細に内容が記載されている場合' do
         it 'バリデーションが通る' do
-          task = Task.new(title: 'test', content: 'test')
+          task = FactoryBot.create(:task, user: user)
           expect(task).to be_valid
         end
       end
     end
     describe 'タスク検索機能' do
-      let!(:task) { FactoryBot.create(:task, title: 'task')}
-      let!(:second_task) { FactoryBot.create(:second_task)}
-      let!(:third_task) { FactoryBot.create(:third_task)}
+      let!(:user) { FactoryBot.create(:user) }
+      let!(:task) { FactoryBot.create(:task, title: 'task', user: user) }
+      let!(:second_task) { FactoryBot.create(:second_task, user: user) }
+      let!(:third_task) { FactoryBot.create(:third_task, user: user) }
       context 'scopeメソッドでタイトルのあいまい検索をした場合' do
         it '検索キーワードを含むタスクが絞り込まれる' do
           expect(Task.sort_title('task')).to include(task)
