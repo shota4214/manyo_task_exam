@@ -8,10 +8,16 @@ def login
 end
 
 RSpec.describe 'タスク管理機能', type: :system do
+  let!(:label) { FactoryBot.create(:label) }
+  let!(:label_2) { FactoryBot.create(:label_2) }
+  let!(:label_3) { FactoryBot.create(:label_3) }
+  let!(:label_4) { FactoryBot.create(:label_4) }
+  let!(:label_5) { FactoryBot.create(:label_5) }
   let!(:user) { FactoryBot.create(:user) }
   let!(:task) { FactoryBot.create(:task, user: user) }
   let!(:second_task) { FactoryBot.create(:second_task, user: user) }
   let!(:third_task) { FactoryBot.create(:third_task, user: user) }
+
   before do
   end
   describe '新規作成機能' do
@@ -116,6 +122,42 @@ RSpec.describe 'タスク管理機能', type: :system do
         sleep(0.5)
         all('tbody td')[6].click_link('詳細')
         expect(page).to have_content '高'
+      end
+    end
+  end
+  describe 'ラベル機能' do
+    context 'タスク新規作成時' do
+      it '複数のラベルが登録できる' do
+        login
+        click_on '新規タスク作成'
+        fill_in 'task[title]', with: 'test_title'
+        fill_in 'task[content]', with: 'test_content'
+        check 'label-1'
+        check 'label-2'
+        click_button '登録する'
+        expect(page).to have_content 'label-1'
+        expect(page).to have_content 'label-2'
+      end
+    end
+    context 'タスク編集時' do
+      it 'ラベルの変更ができる' do
+        login
+        all('tbody td')[8].click_link('編集')
+        check 'label-1'
+        click_button '更新する'
+        all('tbody td')[6].click_link('詳細')
+        expect(page).to have_content 'label-1'
+      end
+    end
+    context 'タスク一覧画面で' do
+      it 'ラベルでタスクの検索ができる' do
+        login
+        all('tbody td')[8].click_link('編集')
+        check 'label-4'
+        click_button '更新する'
+        select 'label-4', from: 'label_id'
+        click_button 'ラベル検索'
+        expect(page).to have_content 'test_title'
       end
     end
   end

@@ -22,7 +22,7 @@
               <div class="search-labels">
                 <%= form_with(method: :get, local: true, url: tasks_path) do |f| %>
                 <%= f.select("label_id", Label.pluck(:label_name, :id), { include_blank: true }) %>
-                <%= f.submit 'search', name: nil %>
+                <%= f.submit 'ラベル検索', name: nil %>
                 <% end %>
               </div>
             <table class="table text-white mb-0">
