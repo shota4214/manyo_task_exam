@@ -32,6 +32,13 @@
     <%= form.label :priority %>
     <%= form.select :priority, [["低", "low"],["中", "medium"],["高", "high"]], include_blank: "選択" %>
   </div>
+  <div class="task_label">
+  <% Label.all.each do |label| %>
+    <%= form.check_box :label_ids,{ multiple: true, checked: label[:checked], disabled: label[:disabled], include_hidden: false }, label[:id] %>
+    <label style="background-color: aquamarine"><%= label.label_name %></label>
+    <% end %>
+  </div>
+
   <%= form.submit %>
 <% end %>
 <%= link_to "一覧へ戻る", tasks_path %>

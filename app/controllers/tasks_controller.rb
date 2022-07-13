@@ -3,6 +3,7 @@ class TasksController < ApplicationController
 
   def index
     @tasks = Task.user_tasks(current_user.id).order("#{sort_column} #{sort_direction}").page params[:page]
+    @tasks = @tasks.joins(:labels).where(labels: { id: params[:label_id] }) if params[:label_id].present?
     if params[:search].present?
       title = params[:search][:title]
       status = params[:search][:status]
@@ -64,7 +65,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :content, :deadline, :status, :priority)
+    params.require(:task).permit(:title, :content, :deadline, :status, :priority, { label_ids:[] })
   end
 
   def sort_direction

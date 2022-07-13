@@ -1,4 +1,12 @@
 require 'rails_helper'
+
+def login
+  visit new_session_path
+  fill_in 'session[email]', with: 'test@test.com'
+  fill_in 'session[password]', with: '12345678'
+  click_on 'ログイン'
+end
+
 RSpec.describe 'ユーザー管理機能', type: :system do
   let!(:user) { FactoryBot.create(:user) }
   let!(:second_user) { FactoryBot.create(:second_user) }
@@ -27,38 +35,26 @@ RSpec.describe 'ユーザー管理機能', type: :system do
   describe 'セッションログイン機能' do
     context '登録済みのユーザーがログインしようとした場合' do
       it 'ログインできる' do
-        visit new_session_path
-        fill_in 'session[email]', with: 'test@test.com'
-        fill_in 'session[password]', with: '12345678'
-        click_on 'ログイン'
+        login
         expect(page).to have_content 'test_nameのページ'
       end
     end
     context '登録済みのユーザーがログインした時' do
       it '自分のユーザー詳細画面に遷移する' do
-        visit new_session_path
-        fill_in 'session[email]', with: 'test@test.com'
-        fill_in 'session[password]', with: '12345678'
-        click_on 'ログイン'
+        login
         expect(current_path).to eq user_path(user)
       end
     end
     context '一般ユーザーが他者の詳細画面に遷移しようとした場合' do
       it 'タスク一覧画面を表示する' do
-        visit new_session_path
-        fill_in 'session[email]', with: 'test@test.com'
-        fill_in 'session[password]', with: '12345678'
-        click_on 'ログイン'
+        login
         visit user_path(second_user)
         expect(current_path).to eq tasks_path
       end
     end
     context 'ログイン済みユーザーがログアウトボタンを押した場合' do
       it 'ログアウトできる' do
-        visit new_session_path
-        fill_in 'session[email]', with: 'test@test.com'
-        fill_in 'session[password]', with: '12345678'
-        click_on 'ログイン'
+        login
         click_on 'Logout'
         expect(page).to have_content 'ログアウトしました'
       end
@@ -68,30 +64,21 @@ RSpec.describe 'ユーザー管理機能', type: :system do
     let!(:admin_user) { FactoryBot.create(:admin_user) }
     context 'ログインユーザーが一般ユーザーだった場合' do
       it '管理者画面に遷移できない' do
-        visit new_session_path
-        fill_in 'session[email]', with: 'test@test.com'
-        fill_in 'session[password]', with: '12345678'
-        click_on 'ログイン'
+        login
         visit admin_users_path
         expect(current_path).not_to eq admin_users_path
       end
     end
     context 'ログインユーザーが管理者だった場合' do
       it '管理者画面に遷移できる' do
-        visit new_session_path
-        fill_in 'session[email]', with: 'admin@admin.com'
-        fill_in 'session[password]', with: '12345678'
-        click_on 'ログイン'
+        login
         click_on 'ユーザー管理画面'
         expect(current_path).to eq admin_users_path
       end
     end
     context 'ログインユーザーが管理者だった場合' do
       it 'ユーザーの新規登録ができる' do
-        visit new_session_path
-        fill_in 'session[email]', with: 'admin@admin.com'
-        fill_in 'session[password]', with: '12345678'
-        click_on 'ログイン'
+        login
         click_on 'ユーザー管理画面'
         click_link '新規ユーザー登録'
         fill_in 'user[name]', with: 'add-user'
@@ -105,10 +92,7 @@ RSpec.describe 'ユーザー管理機能', type: :system do
     end
     context 'ログインユーザーが管理者だった場合' do
       it '別ユーザーの詳細画面にアクセスできる' do
-        visit new_session_path
-        fill_in 'session[email]', with: 'admin@admin.com'
-        fill_in 'session[password]', with: '12345678'
-        click_on 'ログイン'
+        login
         click_on 'ユーザー管理画面'
         all('tbody td')[6].click_link('詳細')
         expect(page).to have_content 'test_nameのページ'
@@ -116,10 +100,7 @@ RSpec.describe 'ユーザー管理機能', type: :system do
     end
     context 'ログインユーザーが管理者だった場合' do
       it '別ユーザーの編集画面からユーザー情報を編集できる' do
-        visit new_session_path
-        fill_in 'session[email]', with: 'admin@admin.com'
-        fill_in 'session[password]', with: '12345678'
-        click_on 'ログイン'
+        login
         click_on 'ユーザー管理画面'
         visit edit_admin_user_path(user)
         expect(current_path).to eq edit_admin_user_path(user)
@@ -127,10 +108,7 @@ RSpec.describe 'ユーザー管理機能', type: :system do
     end
     context 'ログインユーザーが管理者だった場合' do
       it 'ユーザーの削除ができる' do
-        visit new_session_path
-        fill_in 'session[email]', with: 'admin@admin.com'
-        fill_in 'session[password]', with: '12345678'
-        click_on 'ログイン'
+        login
         click_on 'ユーザー管理画面'
         all('tbody td')[9].click_link('削除')
         page.driver.browser.switch_to.alert.accept
