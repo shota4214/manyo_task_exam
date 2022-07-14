@@ -3,16 +3,18 @@ class TasksController < ApplicationController
 
   def index
     @tasks = Task.user_tasks(current_user.id).order("#{sort_column} #{sort_direction}").page params[:page]
-    @tasks = @tasks.joins(:labels).where(labels: { id: params[:label_id] }) if params[:label_id].present?
     if params[:search].present?
       title = params[:search][:title]
       status = params[:search][:status]
+      labels = params[:search][:label_id]
       if title.present? && status.present?
         @tasks = Task.sort_title(title).sort_status(status).page params[:page]
       elsif title.present?
         @tasks = Task.sort_title(title).page params[:page]
       elsif status.present?
         @tasks = Task.sort_status(status).page params[:page]
+      elsif labels.present?
+        @tasks = @tasks.joins(:labels).where(labels: { id: labels }).page params[:page]
       end
     end
   end

@@ -7,7 +7,7 @@
             <div class="text-center pt-3 pb-2">
               <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-todo-list/check1.webp"
                 alt="Check" width="60">
-              <h2 class="my-4">Task List</h2>
+              <h2 class="my-4">タスク一覧</h2>
             </div>
             <p><%= notice %></p>
               <div class="search-form">
@@ -16,13 +16,9 @@
                   <%= f.text_field :title %>
                   <%= f.label :状態検索 %>
                   <%= f.select :status, [["未選択",""],["未着手", 0],["着手中", 1],["完了", 2]]%>
+                  <%= f.label :ラベル検索　%>
+                  <%= f.select("label_id", Label.pluck(:label_name, :id), { include_blank: true }) %>
                   <%= f.submit "検索" %>
-                <% end %>
-              </div>
-              <div class="search-labels">
-                <%= form_with(method: :get, local: true, url: tasks_path) do |f| %>
-                <%= f.select("label_id", Label.pluck(:label_name, :id), { include_blank: true }) %>
-                <%= f.submit 'ラベル検索', name: nil %>
                 <% end %>
               </div>
             <table class="table text-white mb-0">
