@@ -1,17 +1,38 @@
-<h3>以下の内容で、登録します</h3>
-
-<%= form_with(model: @task, local: true, url:tasks_path ) do |form| %>
-  <%= form.hidden_field :title %>
-  <%= form.hidden_field :content %>
-  <%= form.hidden_field :deadline %>
-  <%= form.hidden_field :status %>
-  <%= form.hidden_field :priority %>
-
-  <p>タイトル:<%= @task.title %></p>
-  <p>内容:<%= @task.content %></p>
-  <p>終了期限:<%= @task.deadline %></p>
-  <p>状態:<%= @task.status_i18n %></p>
-  <p>優先度:<%= @task.priority_i18n %></p>
-  <%= form.submit "登録する" %>
-  <%= form.submit "戻る", name: 'back' %>
-<% end %>
+<section class="vh-100 gradient-custom-2">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-12 col-xl-10">
+        <div class="card mask-custom">
+          <div class="card-body p-4 text-white">
+            <div class="text-center pt-3 pb-2">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-todo-list/check1.webp"
+                alt="Check" width="60">
+              <h3 class="my-4">以下の内容で登録します</h3>
+            </div>
+              <%= form_with(model: @task, local: true, url:tasks_path ) do |form| %>
+                <%= form.hidden_field :title %>
+                <%= form.hidden_field :content %>
+                <%= form.hidden_field :deadline %>
+                <%= form.hidden_field :status %>
+                <%= form.hidden_field :priority %>
+                <% @task.labels.each do |label| %> 
+                  <%= form.hidden_field :label_ids, multiple: true, value: label.id %> 
+                <% end %> 
+                <p>タイトル:<%= @task.title %></p>
+                <p>内容:<%= @task.content %></p>
+                <p>終了期限:<%= @task.deadline %></p>
+                <p>状態:<%= @task.status_i18n %></p>
+                <p>優先度:<%= @task.priority_i18n %></p>
+                <p>タグ: 
+                <% @task.labels.each do |label|%>
+                  <%= label.label_name %>
+                <% end %></p>
+                <%= form.submit "登録する" %>
+                <%= form.submit "戻る", name: 'back' %>
+              <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

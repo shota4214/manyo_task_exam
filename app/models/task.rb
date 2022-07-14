@@ -8,4 +8,6 @@ class Task < ApplicationRecord
   scope :user_tasks, -> (current_user_id) { where(user_id: current_user_id).includes(:user) }
   paginates_per 10
   belongs_to :user
+  has_many :labellings, dependent: :destroy
+  has_many :labels, through: :labellings
 end

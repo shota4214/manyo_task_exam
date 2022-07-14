@@ -6,12 +6,15 @@ class TasksController < ApplicationController
     if params[:search].present?
       title = params[:search][:title]
       status = params[:search][:status]
+      labels = params[:search][:label_id]
       if title.present? && status.present?
         @tasks = Task.sort_title(title).sort_status(status).page params[:page]
       elsif title.present?
         @tasks = Task.sort_title(title).page params[:page]
       elsif status.present?
         @tasks = Task.sort_status(status).page params[:page]
+      elsif labels.present?
+        @tasks = @tasks.joins(:labels).where(labels: { id: labels }).page params[:page]
       end
     end
   end
@@ -64,7 +67,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :content, :deadline, :status, :priority)
+    params.require(:task).permit(:title, :content, :deadline, :status, :priority, { label_ids:[] })
   end
 
   def sort_direction
