@@ -7,6 +7,12 @@ def login
   click_on 'ログイン'
 end
 
+def admin_login
+  visit new_session_path
+  fill_in 'session[email]', with: 'admin@admin.com'
+  fill_in 'session[password]', with: '12345678'
+  click_on 'ログイン'
+end
 RSpec.describe 'ユーザー管理機能', type: :system do
   let!(:user) { FactoryBot.create(:user) }
   let!(:second_user) { FactoryBot.create(:second_user) }
@@ -71,14 +77,14 @@ RSpec.describe 'ユーザー管理機能', type: :system do
     end
     context 'ログインユーザーが管理者だった場合' do
       it '管理者画面に遷移できる' do
-        login
+        admin_login
         click_on 'ユーザー管理画面'
         expect(current_path).to eq admin_users_path
       end
     end
     context 'ログインユーザーが管理者だった場合' do
       it 'ユーザーの新規登録ができる' do
-        login
+        admin_login
         click_on 'ユーザー管理画面'
         click_link '新規ユーザー登録'
         fill_in 'user[name]', with: 'add-user'
@@ -92,7 +98,7 @@ RSpec.describe 'ユーザー管理機能', type: :system do
     end
     context 'ログインユーザーが管理者だった場合' do
       it '別ユーザーの詳細画面にアクセスできる' do
-        login
+        admin_login
         click_on 'ユーザー管理画面'
         all('tbody td')[6].click_link('詳細')
         expect(page).to have_content 'test_nameのページ'
@@ -100,7 +106,7 @@ RSpec.describe 'ユーザー管理機能', type: :system do
     end
     context 'ログインユーザーが管理者だった場合' do
       it '別ユーザーの編集画面からユーザー情報を編集できる' do
-        login
+        admin_login
         click_on 'ユーザー管理画面'
         visit edit_admin_user_path(user)
         expect(current_path).to eq edit_admin_user_path(user)
@@ -108,7 +114,7 @@ RSpec.describe 'ユーザー管理機能', type: :system do
     end
     context 'ログインユーザーが管理者だった場合' do
       it 'ユーザーの削除ができる' do
-        login
+        admin_login
         click_on 'ユーザー管理画面'
         all('tbody td')[9].click_link('削除')
         page.driver.browser.switch_to.alert.accept
