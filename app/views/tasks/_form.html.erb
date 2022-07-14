@@ -35,7 +35,7 @@
   <div class="task_label">
   <% Label.all.each do |label| %>
     <%= form.check_box :label_ids,{ multiple: true, checked: label[:checked], disabled: label[:disabled], include_hidden: false }, label[:id] %>
-    <label style="background-color: aquamarine">
+    <label style="background-color: gray">
     <%= form.label :label_ids, label.label_name, value: label[:id] %></label>
     <% end %>
   </div>
